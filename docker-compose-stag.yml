@@ -12,11 +12,11 @@ services:
     restart: always
     env_file: shop_env_stag_db
     volumes:
-      - ../backend/shop_stag_db:/var/lib/postgresql/data
+      - backend/shop_stag_db:/var/lib/postgresql/data
   kid_stag_app:
     image: kid_stag_app
     build:
-      context: ../backend/shop
+      context: backend/shop
       dockerfile: docker/Dockerfile_stag
     restart: always
     env_file: shop_env_stag
@@ -24,7 +24,7 @@ services:
       - kid_stag_db
       - kid_stag_redis
     volumes:
-      - ../backend/shop:/usr/src/shop
+      - backend/shop:/usr/src/shop
       - bundle:/bundle
   kid_stag_web:
     build:
@@ -32,7 +32,7 @@ services:
       dockerfile: Dockerfile_nginx
     restart: always
     volumes:
-      - ../backend/shop:/usr/src/shop
+      - backend/shop:/usr/src/shop
       - bundle:/bundle
     ports:
       - 80:80
@@ -40,14 +40,14 @@ services:
 
   bk_landingpage_stag_api:
     build:
-      context: ../backend/landingpage
+      context: backend/landingpage
       dockerfile: docker/Dockerfile_stag
     image: beekids/landingpage
     env_file: landingpage_env_stag
     ports:
       - 1337:1337
     volumes:
-      - ../backend/landingpage:/usr/src/beekids-landingpage
+      - backend/landingpage:/usr/src/beekids-landingpage
     depends_on:
       - bk_landingpage_stag_db
 
@@ -55,7 +55,7 @@ services:
     image: mongo:4.0.10-xenial
     env_file: landingpage_env_stag_db
     volumes:
-      - ../backend/bk_landingpage_db:/data/db
+      - backend/bk_landingpage_db:/data/db
 
 volumes:
   bundle:

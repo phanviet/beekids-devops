@@ -13,13 +13,12 @@ init_repo () {
 }
 
 # Clone backend repos
-cd ..
 mkdir -p backend && cd backend
 init_repo "shop" $BACKEND_SHOP_REPO
 init_repo "landingpage" $BACKEND_LANDINGPAGE_REPO
 
 # Clone frontend repos
-cd ..
+cd $CURRENT_DIR
 mkdir -p frontend && cd frontend
 init_repo "landingpage" $FRONTEND_LANDINGPAGE_REPO
 

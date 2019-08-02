@@ -8,46 +8,46 @@ services:
 
   bk_landingpage_api:
     build:
-      context: ../backend/landingpage
+      context: backend/landingpage
       dockerfile: docker/Dockerfile
     image: beekids/landingpage
-    env_file: ../backend/landingpage/docker/env
+    env_file: backend/landingpage/docker/env
     ports:
       - 1337:1337
     volumes:
-      - ../backend/landingpage:/usr/src/beekids-landingpage
+      - backend/landingpage:/usr/src/beekids-landingpage
     depends_on:
       - bk_landingpage_db
 
   bk_landingpage_db:
     image: mongo:4.0.10-xenial
-    env_file: ../backend/landingpage/docker/env_db
+    env_file: backend/landingpage/docker/env_db
     ports:
       - 27017:27017
     volumes:
-      - ../backend/bk_landingpage_db:/data/db
+      - backend/bk_landingpage_db:/data/db
 
   kid_web:
     build:
-      context: ../backend/shop
+      context: backend/shop
       dockerfile: docker/Dockerfile
     command: docker/Dockerexec.sh
-    env_file: ../backend/shop/docker/env
+    env_file: backend/shop/docker/env
     depends_on:
       - kid_db
     volumes:
-      - ../backend/shop:/usr/src/shop
+      - backend/shop:/usr/src/shop
       - bundle:/bundle
     ports:
       - '3000:3000'
 
   kid_db:
     image: postgres:9.6.2
-    env_file: ../backend/shop/docker/env_db
+    env_file: backend/shop/docker/env_db
     ports:
       - 5432:5432
     volumes:
-      - ../backend/shop_db:/var/lib/postgresql/data
+      - backend/shop_db:/var/lib/postgresql/data
 
 volumes:
   bundle:

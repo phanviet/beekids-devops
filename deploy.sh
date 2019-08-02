@@ -14,7 +14,7 @@ docker_compose_file="docker-compose-$1.yml"
 docker_compose_cmd="docker-compose -f $docker_compose_file"
 
 app_path=/usr/src/beekids
-devops_path=$app_path/devops
+devops_path=$app_path
 
 if [[ $app_env == "stag" ]]; then
   branch='develop'
