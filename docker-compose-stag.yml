@@ -54,6 +54,8 @@ services:
   bk_landingpage_stag_db:
     image: mongo:4.0.10-xenial
     env_file: landingpage_env_stag_db
+    ports:
+      - 5432:5432
     volumes:
       - ./backend/bk_landingpage_db:/data/db
 
