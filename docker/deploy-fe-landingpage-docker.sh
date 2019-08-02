@@ -8,4 +8,5 @@ docker_compose_cmd="docker-compose -f $docker_compose_file"
 
 cd $app_path
 $docker_compose_cmd stop $image_web_name
+$docker_compose_cmd build $image_web_name
 $docker_compose_cmd up -d $image_web_name
