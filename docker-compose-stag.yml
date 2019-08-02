@@ -1,0 +1,61 @@
+version: '3'
+services:
+  bundle:
+    image: busybox
+    volumes:
+      - bundle:/bundle
+  kid_stag_redis:
+    image: redis:5.0
+    restart: always
+  kid_stag_db:
+    image: postgres:9.6.2
+    restart: always
+    env_file: shop_env_stag_db
+    volumes:
+      - ../backend/shop_stag_db:/var/lib/postgresql/data
+  kid_stag_app:
+    image: kid_stag_app
+    build:
+      context: ../backend/shop
+      dockerfile: docker/Dockerfile_stag
+    restart: always
+    env_file: shop_env_stag
+    depends_on:
+      - kid_stag_db
+      - kid_stag_redis
+    volumes:
+      - ../backend/shop:/usr/src/shop
+      - bundle:/bundle
+  kid_stag_web:
+    build:
+      context: .
+      dockerfile: Dockerfile_nginx
+    restart: always
+    volumes:
+      - ../backend/shop:/usr/src/shop
+      - bundle:/bundle
+    ports:
+      - 80:80
+      - 443:443
+
+  bk_landingpage_stag_api:
+    build:
+      context: ../backend/landingpage
+      dockerfile: docker/Dockerfile_stag
+    image: beekids/landingpage
+    env_file: landingpage_env_stag
+    ports:
+      - 1337:1337
+    volumes:
+      - ../backend/landingpage:/usr/src/beekids-landingpage
+    depends_on:
+      - bk_landingpage_stag_db
+
+  bk_landingpage_stag_db:
+    image: mongo:4.0.10-xenial
+    env_file: landingpage_env_stag_db
+    volumes:
+      - ../backend/bk_landingpage_db:/data/db
+
+volumes:
+  bundle:
