@@ -8,7 +8,7 @@ image_db_name="kid_$1_db"
 docker_compose_file="docker-compose-$1.yml"
 docker_compose_cmd="docker-compose -f $docker_compose_file"
 
-cd $app_path/devops
+cd $app_path
 $docker_compose_cmd exec $image_app_name bundle install
 $docker_compose_cmd exec $image_app_name bundle exec rails db:migrate
 $docker_compose_cmd exec $image_app_name bundle exec rails assets:precompile
